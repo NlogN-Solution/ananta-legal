@@ -1,0 +1,10 @@
+/* ============ MARQUEE ============ */
+.marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--olive);overflow:hidden;padding:.95rem 0}
+[data-theme="dark"] .marquee{background:var(--olive)}
+.marquee .track{display:flex;gap:0;width:max-content;animation:scroll 32s linear infinite}
+.marquee:hover .track{animation-play-state:paused}
+.marquee .item{display:flex;align-items:center;gap:1.6rem;padding-right:1.6rem;font-family:"Bricolage Grotesque";font-weight:700;font-size:1.15rem;color:var(--bg);text-transform:uppercase;letter-spacing:.01em;white-space:nowrap}
+[data-theme="dark"] .marquee .item{color:#15170d}
+.marquee .star{color:var(--lime-2)}
+[data-theme="dark"] .marquee .star{color:#15170d;opacity:.55}
+@keyframes scroll{to{transform:translateX(-50%)}}

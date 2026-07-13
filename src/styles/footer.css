@@ -1,0 +1,11 @@
+/* ============ FOOTER ============ */
+footer{background:var(--bg-2);color:var(--ink);padding:4.5rem 0 2rem}
+.foot-top{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:2.5rem;padding-bottom:3rem;border-bottom:1px solid var(--line)}
+.foot-brand .logo{color:var(--ink);margin-bottom:1.1rem}
+.foot-brand .logo .logo-mark{width:40px;height:40px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.15))}
+.foot-brand p{color:var(--ink-soft);max-width:34ch;font-size:.98rem}
+.foot-col h5{font-family:"IBM Plex Mono",monospace;font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin-bottom:1.1rem}
+.foot-col a,.foot-col p{display:block;color:var(--ink);font-size:.96rem;margin-bottom:.7rem;opacity:.9;transition:opacity .2s,color .2s}
+.foot-col a:hover{opacity:1;color:var(--olive)}
+.foot-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;padding-top:2rem;font-size:.82rem;color:var(--ink-soft)}
+.foot-bottom .disc{max-width:62ch;line-height:1.5}

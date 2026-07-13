@@ -1,0 +1,34 @@
+/* ============ ABOUT PAGE ============ */
+.about-hero{background:var(--bg-2)}
+.about-content{display:grid;grid-template-columns:1fr 1.3fr;gap:3.5rem;align-items:start;margin-top:3rem}
+.about-portrait{
+  position:relative;border-radius:22px;overflow:hidden;
+  aspect-ratio:3/4;background:var(--surface);border:1px solid var(--line);
+}
+.about-portrait img{width:100%;height:100%;object-fit:cover}
+.about-portrait .badge{
+  position:absolute;bottom:1.2rem;left:1.2rem;
+  background:color-mix(in srgb,var(--bg) 85%,transparent);
+  backdrop-filter:blur(10px);border:1px solid var(--line);
+  border-radius:12px;padding:.7rem 1rem;
+}
+.about-portrait .badge .name{font-family:"Bricolage Grotesque";font-weight:700;font-size:1.1rem}
+.about-portrait .badge .title{font-size:.82rem;color:var(--ink-soft)}
+
+.about-bio h2{font-family:"Bricolage Grotesque";font-weight:700;font-size:clamp(1.8rem,4vw,2.8rem);letter-spacing:-.02em;margin-bottom:1.4rem;line-height:1.05}
+.about-bio p{color:var(--ink-soft);font-size:1.05rem;line-height:1.7;margin-bottom:1.2rem}
+.about-bio p strong{color:var(--ink);font-weight:600}
+
+.credentials{margin-top:2.8rem;display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
+.credential{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:1.3rem 1.4rem;transition:border-color .3s}
+.credential:hover{border-color:var(--olive)}
+.credential .cred-icon{width:28px;height:28px;color:var(--olive);margin-bottom:.6rem}
+.credential h4{font-family:"Bricolage Grotesque";font-weight:700;font-size:1.1rem;margin-bottom:.3rem}
+.credential p{font-size:.9rem;color:var(--ink-soft)}
+
+.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:3rem}
+.value-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:1.7rem 1.6rem;transition:transform .3s,border-color .3s}
+.value-card:hover{transform:translateY(-4px);border-color:var(--olive)}
+.value-card .val-num{font-family:"IBM Plex Mono",monospace;font-size:.8rem;color:var(--olive);margin-bottom:1.2rem}
+.value-card h3{font-family:"Bricolage Grotesque";font-weight:700;font-size:1.3rem;margin-bottom:.6rem}
+.value-card p{color:var(--ink-soft);font-size:.95rem;line-height:1.5}

@@ -1,0 +1,61 @@
+/* ============ PROCESS ============ */
+.process-timeline {
+  position: relative;
+  margin-top: 4rem;
+}
+.pt-line {
+  position: absolute;
+  top: 11px;
+  left: 2rem;
+  width: calc(100% - 4rem);
+  height: 2px;
+  z-index: 0;
+}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;position:relative;z-index:1}
+.step{padding:0 1rem;position:relative}
+.step .pt-node {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--olive);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+.step .pt-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--lime);
+  transition: transform 0.3s;
+}
+.step:hover .pt-dot {
+  transform: scale(1.5);
+}
+.step .sn{font-family:"IBM Plex Mono",monospace;font-size:.82rem;color:var(--olive);margin-bottom:1rem;font-weight:600;display:block;}
+.step h4{font-family:"Bricolage Grotesque";font-weight:700;font-size:1.35rem;margin-bottom:.55rem}
+.step p{color:var(--ink-soft);font-size:.96rem;line-height:1.5;}
+
+/* ---- Inside a deck panel: tighten spacing ---- */
+.deck-panel__inner .process-timeline {
+  margin-top: 2rem;
+}
+.deck-panel__inner .steps {
+  gap: 1rem;
+}
+.deck-panel__inner .step h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.35rem;
+}
+.deck-panel__inner .step p {
+  font-size: 0.88rem;
+}
+.deck-panel__inner .step .sn {
+  margin-bottom: 0.6rem;
+}
+.deck-panel__inner .step .pt-node {
+  margin-bottom: 1rem;
+}
+

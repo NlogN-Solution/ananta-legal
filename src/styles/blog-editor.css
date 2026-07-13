@@ -1,0 +1,194 @@
+/* ============================================================
+   BLOG EDITOR — admin compose/edit screen (normal vertical page)
+   ============================================================ */
+.editor-page {
+  min-height: calc(100dvh - 64px);
+  background: var(--bg-2);
+  padding: clamp(1.5rem, 4vh, 3rem) 0 5rem;
+}
+.editor-shell {
+  width: min(1140px, 94vw);
+}
+.editor-status {
+  color: var(--ink-soft);
+  padding: 3rem 0;
+}
+
+/* the TinyMCE instance should always fill the column */
+.editor-page .tox.tox-tinymce {
+  width: 100% !important;
+}
+
+/* ---- login gate ---- */
+.editor-login {
+  width: min(420px, 92vw);
+  text-align: center;
+  padding-top: clamp(1rem, 5vh, 3rem);
+}
+.editor-login__mark {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+}
+.editor-login h1 {
+  font-family: 'Bricolage Grotesque';
+  font-weight: 700;
+  font-size: 1.7rem;
+}
+.editor-login > p {
+  color: var(--ink-soft);
+  margin: 0.4rem 0 1.6rem;
+}
+.editor-login form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+}
+.editor-login label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+.editor-login input {
+  font-family: inherit;
+  font-size: 1rem;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ink);
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--line-2);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.editor-login input:focus {
+  outline: none;
+  border-color: var(--olive);
+}
+.editor-login .btn {
+  justify-content: center;
+  margin-top: 0.3rem;
+}
+
+.editor-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.editor-bar h1 {
+  font-family: 'Bricolage Grotesque';
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-right: auto;
+}
+.editor-back {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.editor-back:hover {
+  color: var(--olive);
+}
+
+.editor-error {
+  background: color-mix(in srgb, #c0392b 12%, var(--surface));
+  border: 1px solid color-mix(in srgb, #c0392b 40%, var(--line));
+  color: #c0392b;
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  font-size: 0.92rem;
+}
+
+.editor-title {
+  width: 100%;
+  font-family: 'Bricolage Grotesque';
+  font-weight: 700;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  letter-spacing: -0.02em;
+  border: none;
+  background: transparent;
+  color: var(--ink);
+  padding: 0.4rem 0;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--line);
+}
+.editor-title:focus {
+  outline: none;
+  border-bottom-color: var(--olive);
+}
+.editor-title::placeholder {
+  color: var(--line-2);
+}
+
+.editor-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.editor-meta label {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+.editor-meta select,
+.editor-meta input[type='file'] {
+  font-family: inherit;
+  font-size: 0.92rem;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ink);
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  background: var(--surface);
+}
+.editor-cover-preview {
+  height: 60px;
+  width: auto;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  object-fit: cover;
+}
+
+.editor-excerpt {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--ink);
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--line-2);
+  border-radius: 12px;
+  background: var(--surface);
+  margin-bottom: 1.2rem;
+  resize: vertical;
+}
+.editor-excerpt:focus {
+  outline: none;
+  border-color: var(--olive);
+}
+
+.editor-page .tox-tinymce {
+  border-radius: 14px !important;
+  border-color: var(--line) !important;
+}
+.editor-hint {
+  margin-top: 1rem;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
