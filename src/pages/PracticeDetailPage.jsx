@@ -28,7 +28,7 @@ export default function PracticeDetailPage() {
     <section className="page-header">
       <div className="wrap">
         <div className="sec-label mono">
-          <span className="ln"></span>
+          
           <Link to="/practice-areas" style={{ color: 'var(--olive)' }}>{pd.breadcrumb}</Link> / {detail.title}
         </div>
         <h1>{detail.title}<span style={{ color: 'var(--lime)' }}>.</span></h1>
@@ -49,7 +49,7 @@ export default function PracticeDetailPage() {
       node: (
         <section className="practice-detail">
           <div className="wrap">
-            <div className="pd-content reveal">
+            <div className="pd-content">
               <h2>{sec.heading}</h2>
               {sec.items && (
                 <ul>
@@ -73,7 +73,7 @@ export default function PracticeDetailPage() {
       node: (
         <section className="practice-detail">
           <div className="wrap">
-            <div className="pd-sidebar reveal">
+            <div className="pd-sidebar">
               {detail.stats.map((s, i) => (
                 <div className="pd-stat" key={i}>
                   <div className="n">{s.n}</div>

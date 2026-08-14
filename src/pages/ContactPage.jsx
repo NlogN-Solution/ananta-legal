@@ -43,7 +43,7 @@ export default function ContactPage() {
   const Intro = (
     <section className="page-header">
       <div className="wrap">
-        <div className="sec-label mono"><span className="ln"></span> {c.label}</div>
+        <div className="sec-label mono">{c.label}</div>
         <h1>{c.h1}<span style={{ color: 'var(--lime)' }}>.</span></h1>
         <p className="sub">{c.sub}</p>
       </div>
@@ -53,7 +53,7 @@ export default function ContactPage() {
   const Form = (
     <section>
       <div className="wrap">
-        <div className="contact-grid reveal">
+        <div className="contact-grid">
           <div className="contact-info">
             <div className="contact-item">
               <div className="ci-icon">
@@ -77,7 +77,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <h4>{c.phoneTitle}</h4>
-                <a href="tel:+9779806051559">+9779806051559</a>
+                <a href="tel:+9779768585046">+977 9768585046</a>
                 <p>{c.phoneNote}</p>
               </div>
             </div>
@@ -148,12 +148,12 @@ export default function ContactPage() {
   const Map = (
      <section>
       <div className="wrap">
-        <div className="map-section reveal">
+        <div className="map-section">
           <h3>{c.mapTitle}</h3>
           <div className="map-container">
             <iframe
-              title="Map — Ananta Legal,Pulchowk, Lalitpur, Nepal"
-              src="https://maps.google.com/maps?q=Pulchowk%2C%20Lalitpur%2C%20Nepal&z=15&hl=en&output=embed"
+              title="Map — Ananta Legal, Jal Binayak Dyo Marg, Lalitpur 30802, Nepal"
+              src="https://maps.google.com/maps?q=XYZ%20Building%2C%20Jal%20Binayak%20Dyo%20Marg%2C%20Lalitpur%2030802%2C%20Nepal&z=16&hl=en&output=embed"
               width="100%"
               height="100%"
               style={{ border: 0 }}
@@ -164,7 +164,7 @@ export default function ContactPage() {
           </div>
           <a
             className="map-link"
-            href="https://maps.google.com/?q=Pulchowk,Lalitpur,Nepal"
+            href="https://maps.google.com/?q=XYZ+Building,+Jal+Binayak+Dyo+Marg,+Lalitpur+30802,+Nepal"
             target="_blank"
             rel="noreferrer"
           >

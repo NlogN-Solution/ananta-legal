@@ -93,7 +93,7 @@
   margin-right: auto;
 }
 .chat-head__text strong {
-  font-family: 'Bricolage Grotesque';
+  font-family: var(--font-display);
   font-size: 1rem;
 }
 .chat-head__text span {

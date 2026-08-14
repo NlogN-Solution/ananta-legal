@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import CTA from '../components/CTA';
 import DeckLayout from '../components/DeckLayout';
+import useAuth from '../hooks/useAuth';
 import { useLang } from '../i18n/LanguageContext';
 
 function fmtDate(iso) {
@@ -18,6 +19,7 @@ export default function BlogPostPage() {
   const { slug } = useParams();
   const { t } = useLang();
   const bp = t.blogPost;
+  const authenticated = useAuth();
 
   const [post, setPost] = useState(undefined); // undefined = loading, null = not found
 
@@ -59,7 +61,7 @@ export default function BlogPostPage() {
     <section className="page-header">
       <div className="wrap">
         <div className="sec-label mono">
-          <span className="ln"></span>
+          
           <Link to="/blog" style={{ color: 'var(--olive)' }}>{bp.breadcrumb}</Link> / {bp.crumbTail}
         </div>
         <header className="blog-post-header">
@@ -69,8 +71,12 @@ export default function BlogPostPage() {
             <span>{bp.publishedOn} {fmtDate(post.created_at)}</span>
             <span>•</span>
             <span>{post.read_time}</span>
-            <span>•</span>
-            <Link to={`/blog/edit/${post.slug}`} style={{ color: 'var(--olive)' }}>Edit</Link>
+            {authenticated && (
+              <>
+                <span>•</span>
+                <Link to={`/blog/edit/${post.slug}`} style={{ color: 'var(--olive)' }}>Edit</Link>
+              </>
+            )}
           </div>
         </header>
       </div>
@@ -84,7 +90,7 @@ export default function BlogPostPage() {
           <img className="blog-post-cover" src={post.cover_image} alt="" />
         )}
         <article
-          className="blog-post-body reveal in"
+          className="blog-post-body"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
       </div>

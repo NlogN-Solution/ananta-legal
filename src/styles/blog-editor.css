@@ -32,7 +32,7 @@
   margin-bottom: 1rem;
 }
 .editor-login h1 {
-  font-family: 'Bricolage Grotesque';
+  font-family: var(--font-display);
   font-weight: 700;
   font-size: 1.7rem;
 }
@@ -84,7 +84,7 @@
   flex-wrap: wrap;
 }
 .editor-bar h1 {
-  font-family: 'Bricolage Grotesque';
+  font-family: var(--font-display);
   font-weight: 700;
   font-size: 1.5rem;
   margin-right: auto;
@@ -110,7 +110,7 @@
 
 .editor-title {
   width: 100%;
-  font-family: 'Bricolage Grotesque';
+  font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(1.6rem, 4vw, 2.4rem);
   letter-spacing: -0.02em;

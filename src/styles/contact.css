@@ -1,25 +1,26 @@
 /* ============ CONTACT PAGE ============ */
-.contact-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:3rem;margin-top:3rem;align-items:start}
-.contact-info{display:flex;flex-direction:column;gap:1.6rem}
-.contact-item{display:flex;gap:1rem;align-items:flex-start}
+.contact-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(2.5rem,5vw,4rem);align-items:start}
+.contact-info{display:flex;flex-direction:column;gap:0}
+.contact-item{display:flex;gap:1.1rem;align-items:flex-start;padding:1.6rem 0;border-bottom:1px solid var(--line)}
+.contact-item:first-child{padding-top:0}
 .contact-item .ci-icon{
-  width:44px;height:44px;flex:none;border-radius:12px;
-  background:var(--surface);border:1px solid var(--line);
+  width:38px;height:38px;flex:none;border-radius:50%;
+  background:var(--bg-2);border:1px solid var(--line);
   display:grid;place-items:center;color:var(--olive);
 }
-.contact-item .ci-icon svg{width:20px;height:20px}
-.contact-item h4{font-family:"Bricolage Grotesque";font-weight:700;font-size:1.05rem;margin-bottom:.15rem}
-.contact-item p,.contact-item a{color:var(--ink-soft);font-size:.96rem;display:block}
+.contact-item .ci-icon svg{width:17px;height:17px}
+.contact-item h4{font-family:var(--font-display);font-weight:700;font-size:1rem;margin-bottom:.3rem}
+.contact-item p,.contact-item a{color:var(--ink-soft);font-size:.95rem;display:block;line-height:1.6}
 .contact-item a:hover{color:var(--olive)}
 
-.contact-form{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:2rem 2.2rem}
-.contact-form h3{font-family:"Bricolage Grotesque";font-weight:700;font-size:1.4rem;margin-bottom:1.5rem}
-.form-group{margin-bottom:1.2rem}
-.form-group label{display:block;font-size:.88rem;font-weight:600;color:var(--ink-soft);margin-bottom:.4rem}
+.contact-form{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:clamp(1.8rem,3.5vw,2.4rem)}
+.contact-form h3{font-family:var(--font-display);font-weight:700;font-size:1.3rem;margin-bottom:1.8rem}
+.form-group{margin-bottom:1.3rem}
+.form-group label{display:block;font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:var(--ink-soft);margin-bottom:.55rem}
 .form-group input,.form-group textarea,.form-group select{
-  width:100%;padding:.75rem 1rem;border:1px solid var(--line-2);border-radius:12px;
+  width:100%;padding:.8rem 1rem;border:1px solid var(--line-2);border-radius:10px;
   background:var(--bg);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;
-  font-size:.98rem;transition:border-color .2s;
+  font-size:.98rem;transition:border-color .2s,box-shadow .2s;
 }
 .form-group input:focus,.form-group textarea:focus,.form-group select:focus{
   outline:none;border-color:var(--olive);box-shadow:0 0 0 3px color-mix(in srgb,var(--olive) 15%,transparent);
@@ -29,13 +30,12 @@
 .form-submit{margin-top:.5rem}
 .form-success{
   background:color-mix(in srgb,var(--lime) 15%,transparent);
-  border:1px solid var(--lime);border-radius:12px;
+  border:1px solid var(--lime);border-radius:10px;
   padding:1rem 1.2rem;margin-top:1rem;color:var(--ink);font-size:.95rem;
 }
 
-.map-section{margin-top:3rem}
-.map-section h3{font-family:"Bricolage Grotesque";font-weight:700;font-size:1.4rem;margin-bottom:1.2rem}
-.map-container{border-radius:20px;overflow:hidden;border:1px solid var(--line);height:380px;background:var(--bg-2)}
+.map-section h3{font-family:var(--font-display);font-weight:700;font-size:1.3rem;margin-bottom:1.4rem}
+.map-container{border-radius:16px;overflow:hidden;border:1px solid var(--line);height:420px;background:var(--bg-2)}
 .map-container iframe{width:100%;height:100%;border:0;display:block;filter:grayscale(.15)}
 .map-link{display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;font-size:.92rem;font-weight:600;color:var(--olive)}
 .map-link .arr{transition:transform .2s}

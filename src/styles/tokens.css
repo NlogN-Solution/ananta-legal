@@ -1,21 +1,34 @@
 /* ============ TOKENS ============ */
+/* Palette sampled from the approved hero comp: warm paper ground, deep
+   olive-green ink, muted bronze-gold accent. `--lime` is retained as the
+   accent variable name (used across every stylesheet) but now carries the
+   gold value, so the whole site inherits the new accent. */
 :root{
-  --bg:#FFFFFF; --bg-2:#F8F9FA; --surface:#FFFFFF;
-  --ink:#1F2416; --ink-soft:#525946;
-  --olive:#1D260B; --olive-2:#2B3810;
-  --lime:#67751D; --lime-2:#7E8F24;
-  --line:#E2E5D8; --line-2:#D2D6C5;
-  --footer-bg:#121807; --footer-ink:#ECEFE6; --footer-soft:#7D8E67;
-  --mark-ink:#121807;
-  --shadow:0 1px 2px rgba(0,0,0,.03), 0 16px 36px -24px rgba(29,38,11,.18);
+  --bg:#FCFBFA; --bg-2:#F5F4EF; --surface:#FFFFFF;
+  --ink:#1E240C; --ink-soft:#5E6350;
+  --olive:#242A12; --olive-2:#39411F;
+  --gold:#C09C66; --gold-2:#A9854F;
+  --lime:#C09C66; --lime-2:#A9854F;
+  /* stays dark in both themes — used by inverted cards like the hero clause */
+  --card-dark:#242A12; --card-dark-ink:#F2F1E9;
+  --line:#E7E4DA; --line-2:#D9D5C7;
+  --footer-bg:#1E240C; --footer-ink:#F2F1E9; --footer-soft:#9AA187;
+  --mark-ink:#1E240C;
+  --shadow:0 1px 2px rgba(30,36,12,.03), 0 18px 40px -28px rgba(30,36,12,.22);
+  --radius:16px;
+  --font-display:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --font-body:"Hanken Grotesk",system-ui,sans-serif;
+  --font-mono:"IBM Plex Mono",monospace;
 }
 [data-theme="dark"]{
-  --bg:#10120A; --bg-2:#14160E; --surface:#1C1F14;
-  --ink:#F2F2E8; --ink-soft:#C4C9AE;
-  --olive:#7A8A2E; --olive-2:#5A6A1C;
-  --lime:#8FA030; --lime-2:#A4B73E;
-  --line:#2A2F1C; --line-2:#363D26;
-  --footer-bg:#080A05; --footer-ink:#E8E7D8; --footer-soft:#98A07A;
-  --mark-ink:#0B0E06;
+  --bg:#14170D; --bg-2:#1A1E12; --surface:#202516;
+  --ink:#F2F1E9; --ink-soft:#B6BBA4;
+  --olive:#D9C9A8; --olive-2:#C0AC85;
+  --gold:#C9A672; --gold-2:#D9BC8E;
+  --lime:#C9A672; --lime-2:#D9BC8E;
+  --card-dark:#0E1108; --card-dark-ink:#F2F1E9;
+  --line:#2C3220; --line-2:#3A412B;
+  --footer-bg:#0E1108; --footer-ink:#F2F1E9; --footer-soft:#9AA187;
+  --mark-ink:#14170D;
   --shadow:0 1px 0 rgba(0,0,0,.25), 0 24px 50px -30px rgba(0,0,0,.85);
 }

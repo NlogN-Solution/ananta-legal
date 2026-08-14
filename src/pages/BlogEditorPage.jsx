@@ -33,7 +33,7 @@ const CATEGORIES = [
 const EDITOR_STYLE =
   contentCss +
   `\nbody{font-family:'Hanken Grotesk',system-ui,sans-serif;font-size:1.06rem;line-height:1.7;color:#1F2416;max-width:820px;margin:1.4rem auto;padding:0 1.5rem}` +
-  `h2{font-family:'Bricolage Grotesque',serif;font-weight:700}img{max-width:100%;height:auto;border-radius:10px}`;
+  `h2{font-family:Cormorant Garamond,Georgia,serif;font-weight:700}img{max-width:100%;height:auto;border-radius:10px}`;
 
 // Send the session cookie with API calls (works same-origin and cross-origin).
 const api = (url, opts = {}) => fetch(url, { credentials: 'include', ...opts });

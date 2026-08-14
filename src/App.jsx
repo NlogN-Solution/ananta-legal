@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense, lazy } from 'react';
+import { useState, useEffect, Suspense, lazy } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
@@ -23,6 +23,26 @@ function ScrollToTop({ pathname }) {
   return null;
 }
 
+/* A thin gold letterhead rule that sweeps in on every route change — the
+   "section change" cue, independent of the page's own enter/exit so it
+   isn't held up by AnimatePresence's mode="wait" ordering below. */
+function RouteBar({ pathname, reduced }) {
+  if (reduced) return null;
+  return (
+    <AnimatePresence>
+      <motion.span
+        key={pathname}
+        className="route-bar"
+        initial={{ scaleX: 0, opacity: 1 }}
+        animate={{ scaleX: 1, opacity: [1, 1, 0] }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.65, times: [0, 0.65, 1], ease: [0.22, 1, 0.36, 1] }}
+        aria-hidden="true"
+      />
+    </AnimatePresence>
+  );
+}
+
 function AnimatedRoutes() {
   const location = useLocation();
   const prefersReduced =
@@ -36,10 +56,10 @@ function AnimatedRoutes() {
     <AnimatePresence mode="wait">
       <motion.main
         key={location.pathname}
-        initial={prefersReduced ? false : { opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={prefersReduced ? { opacity: 0 } : { opacity: 0, y: -10 }}
-        transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+        initial={prefersReduced ? false : { opacity: 0, y: 18, scale: .985 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={prefersReduced ? { opacity: 0 } : { opacity: 0, y: -12, scale: .99 }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       >
         <Routes location={location}>
           <Route path="/" element={<HomePage />} />
@@ -76,18 +96,17 @@ function AnimatedRoutes() {
 export default function App() {
   const [theme, setTheme] = useState(() => {
     try {
-      return (
-        localStorage.getItem('el-theme') ||
-        (window.matchMedia('(prefers-color-scheme:dark)').matches
-          ? 'dark'
-          : 'light')
-      );
+      return localStorage.getItem('el-theme') || 'light';
     } catch {
       return 'light';
     }
   });
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const prefersReduced =
+    typeof window !== 'undefined' &&
+    window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -101,6 +120,7 @@ export default function App() {
 
   return (
     <>
+      <RouteBar pathname={location.pathname} reduced={prefersReduced} />
       <ScrollToTop pathname={location.pathname} />
       <Navbar
         theme={theme}

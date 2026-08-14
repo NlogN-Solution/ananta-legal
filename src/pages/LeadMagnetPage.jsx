@@ -43,7 +43,7 @@ For assistance, contact us: anantalegal9@gmail.com`;
   const Intro = (
     <section className="page-header lead-magnet-hero">
       <div className="wrap">
-        <div className="sec-label mono"><span className="ln"></span> {lm.label}</div>
+        <div className="sec-label mono">{lm.label}</div>
         <h1>{lm.h1}<span style={{ color: 'var(--lime)' }}>.</span></h1>
         <p className="sub">{lm.sub}</p>
       </div>
@@ -53,7 +53,7 @@ For assistance, contact us: anantalegal9@gmail.com`;
   const Offer = (
     <section>
       <div className="wrap">
-        <div className="lm-grid reveal">
+        <div className="lm-grid">
           <div className="lm-preview">
             <div className="pdf-icon">{lm.pdf}</div>
             <h3>{lm.previewHead}</h3>

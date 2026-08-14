@@ -1,14 +1,14 @@
 /* ============ LEAD MAGNET ============ */
 .lead-magnet-hero{background:var(--bg-2)}
-.lm-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;margin-top:3rem;align-items:center}
+.lm-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2.5rem,5vw,4rem);align-items:center}
 .lm-preview{
-  background:var(--surface);border:1px solid var(--line);border-radius:18px;
-  padding:2.5rem;text-align:center;position:relative;overflow:hidden;
+  background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:clamp(2.2rem,4vw,3rem);text-align:center;position:relative;overflow:hidden;
 }
 .lm-preview::after{
   content:"";position:absolute;width:40vw;height:40vw;border-radius:50%;
-  background:color-mix(in srgb,var(--lime) 20%,transparent);
-  right:-15vw;bottom:-15vw;pointer-events:none;
+  background:radial-gradient(circle,color-mix(in srgb,var(--lime) 14%,transparent),transparent 70%);
+  right:-16vw;bottom:-16vw;pointer-events:none;
 }
 .lm-preview .pdf-icon{
   width:80px;height:100px;margin:0 auto 1.5rem;background:var(--olive);border-radius:8px;
@@ -16,12 +16,12 @@
   font-size:.82rem;font-weight:600;position:relative;z-index:1;
 }
 [data-theme="dark"] .lm-preview .pdf-icon{color:#15170d}
-.lm-preview h3{font-family:"Bricolage Grotesque";font-weight:700;font-size:1.4rem;margin-bottom:.5rem;position:relative;z-index:1}
+.lm-preview h3{font-family:var(--font-display);font-weight:700;font-size:1.4rem;margin-bottom:.5rem;position:relative;z-index:1}
 .lm-preview p{color:var(--ink-soft);font-size:.92rem;position:relative;z-index:1}
 
 .lm-form{display:flex;flex-direction:column;gap:1.2rem}
-.lm-form h3{font-family:"Bricolage Grotesque";font-weight:700;font-size:1.6rem;letter-spacing:-.02em;margin-bottom:.2rem}
+.lm-form h3{font-family:var(--font-display);font-weight:700;font-size:1.6rem;letter-spacing:-.02em;margin-bottom:.2rem}
 .lm-form p{color:var(--ink-soft);font-size:1.02rem;margin-bottom:.6rem}
 .lm-features{list-style:none;margin:0 0 1rem;display:flex;flex-direction:column;gap:.45rem}
-.lm-features li{font-size:.92rem;color:var(--ink-soft);display:flex;align-items:center;gap:.5rem}
-.lm-features li::before{content:"✶";color:var(--lime);font-size:.7rem}
+.lm-features li{font-size:.92rem;color:var(--ink-soft);display:flex;align-items:center;gap:.6rem}
+.lm-features li::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--olive);flex:none}

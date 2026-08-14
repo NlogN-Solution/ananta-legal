@@ -6,13 +6,13 @@
   .pt-line{display:none}
   .step{padding:0 0 0 2rem;border-left:2px dashed var(--line-2)}
   .step .pt-node{position:absolute;left:-13px;top:-4px;margin-bottom:0}
-  .clause{display:none}
   .foot-top{grid-template-columns:1fr 1fr}
   .foot-brand{grid-column:1/-1}
 
   .about-content{grid-template-columns:1fr;gap:2rem}
   .about-portrait{max-width:400px}
   .credentials{grid-template-columns:1fr}
+  .team-intro-grid{grid-template-columns:1fr}
   .values-grid{grid-template-columns:repeat(2,1fr)}
 
   .practice-grid{grid-template-columns:1fr}
@@ -36,10 +36,9 @@
   .blog-grid{grid-template-columns:1fr}
   .form-row{grid-template-columns:1fr}
   .pd-sidebar{grid-template-columns:1fr}
+  .team-grid{grid-template-columns:1fr;max-width:280px}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-  .hero h1 .l>span{transform:none}
-  .hero-sub,.hero-cta,.trust,.clause{opacity:1}
-  .reveal{opacity:1;transform:none}
+  .hero-sub,.hero-cta{opacity:1}
 }

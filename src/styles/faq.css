@@ -1,7 +1,8 @@
 /* ============ FAQ ============ */
 .faq-list{margin-top:2.6rem;border-top:1px solid var(--line)}
 .faq{border-bottom:1px solid var(--line)}
-.faq button{width:100%;background:none;border:none;cursor:pointer;text-align:left;padding:1.5rem 0;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;font-family:"Bricolage Grotesque";font-weight:600;font-size:clamp(1.15rem,2.5vw,1.5rem);color:var(--ink);letter-spacing:-.01em}
+.faq button{width:100%;background:none;border:none;cursor:pointer;text-align:left;padding:1.5rem 0;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;font-family:var(--font-display);font-weight:600;font-size:clamp(1.15rem,2.5vw,1.5rem);color:var(--ink);letter-spacing:-.01em;transition:color .25s}
+.faq button:hover{color:var(--olive)}
 .faq .pm{flex:none;width:30px;height:30px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;font-size:1.1rem;color:var(--olive);transition:.3s}
 .faq.open .pm{background:var(--olive);color:var(--bg);transform:rotate(45deg);border-color:var(--olive)}
 [data-theme="dark"] .faq.open .pm{color:#15170d}

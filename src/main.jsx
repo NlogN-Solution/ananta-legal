@@ -21,7 +21,6 @@ import './styles/contact.css';
 import './styles/blog.css';
 import './styles/origin.css';
 import './styles/leadmagnet.css';
-import './styles/book.css';
 import './styles/chat.css';
 import './styles/blog-editor.css';
 import './styles/responsive.css';

@@ -1,6 +1,6 @@
 /* ============ FOOTER ============ */
-footer{background:var(--bg-2);color:var(--ink);padding:4.5rem 0 2rem}
-.foot-top{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:2.5rem;padding-bottom:3rem;border-bottom:1px solid var(--line)}
+footer{background:var(--bg-2);color:var(--ink);padding:clamp(4.5rem,8vw,6.5rem) 0 2.5rem}
+.foot-top{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:clamp(2.5rem,5vw,4rem);padding-bottom:clamp(3rem,5vw,4rem);border-bottom:1px solid var(--line)}
 .foot-brand .logo{color:var(--ink);margin-bottom:1.1rem}
 .foot-brand .logo .logo-mark{width:40px;height:40px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.15))}
 .foot-brand p{color:var(--ink-soft);max-width:34ch;font-size:.98rem}

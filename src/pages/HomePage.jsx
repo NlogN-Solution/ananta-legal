@@ -3,6 +3,7 @@ import Hero from '../components/Hero';
 import Marquee from '../components/Marquee';
 import Services from '../components/Services';
 import Approach from '../components/Approach';
+import Team from '../components/Team';
 import Process from '../components/Process';
 import Stories from '../components/Stories';
 import FAQ from '../components/FAQ';
@@ -37,6 +38,7 @@ export default function HomePage() {
     { id: 'practice', label: L.practice, node: <MarqueeDivider /> },
     { id: 'services', label: L.services, node: <Services /> },
     { id: 'approach', label: L.approach, node: <Approach /> },
+    { id: 'team', label: L.team, node: <Team /> },
     { id: 'process', label: L.process, node: <Process /> },
     { id: 'stories', label: L.stories, node: <Stories /> },
     { id: 'faq', label: L.faq, node: <FAQ /> },

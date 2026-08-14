@@ -1,5 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useLang } from '../i18n/LanguageContext';
+import { fadeUp, staggerContainer } from '../animation/variants';
 
 function FAQItem({ question, answer }) {
   const [open, setOpen] = useState(false);
@@ -10,7 +12,7 @@ function FAQItem({ question, answer }) {
   }, []);
 
   return (
-    <div className={`faq${open ? ' open' : ''}`}>
+    <motion.div className={`faq${open ? ' open' : ''}`} variants={fadeUp}>
       <button aria-expanded={open} onClick={toggle}>
         <span>{question}</span>
         <span className="pm">+</span>
@@ -22,27 +24,37 @@ function FAQItem({ question, answer }) {
       >
         <p>{answer}</p>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 export default function FAQ() {
   const { t } = useLang();
   const f = t.faq;
+  const prefersReducedMotion = useReducedMotion();
 
   return (
-    <section id="faq">
+    <motion.section
+      id="faq"
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.18 }}
+    >
       <div className="wrap">
-        <div className="reveal">
-          <div className="sec-label mono"><span className="ln"></span> {f.label}</div>
-          <h2 className="sec-head">{f.head}</h2>
-        </div>
-        <div className="faq-list reveal">
+        <motion.div variants={prefersReducedMotion ? undefined : staggerContainer}>
+          <motion.div className="sec-label mono" variants={prefersReducedMotion ? undefined : fadeUp}>
+            {f.label}
+          </motion.div>
+          <motion.h2 className="sec-head" variants={prefersReducedMotion ? undefined : fadeUp}>
+            {f.head}
+          </motion.h2>
+        </motion.div>
+        <motion.div className="faq-list" variants={prefersReducedMotion ? undefined : staggerContainer}>
           {f.items.map((faq, i) => (
             <FAQItem key={`${faq.q}-${i}`} question={faq.q} answer={faq.a} />
           ))}
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }

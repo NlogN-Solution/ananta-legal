@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import CTA from '../components/CTA';
 import DeckLayout from '../components/DeckLayout';
+import useAuth from '../hooks/useAuth';
 import { useLang } from '../i18n/LanguageContext';
 
 function fmtDate(iso) {
@@ -18,7 +19,7 @@ function fmtDate(iso) {
 
 function PostCard({ post }) {
   return (
-    <article className="blog-card reveal in">
+    <article className="blog-card">
       <div className="blog-thumb">
         {post.cover_image ? (
           <img
@@ -32,7 +33,7 @@ function PostCard({ post }) {
               width: '100%', height: '100%',
               background: 'linear-gradient(135deg, var(--olive-2), var(--surface))',
               display: 'grid', placeItems: 'center',
-              fontFamily: '"Bricolage Grotesque"', fontSize: '2.5rem', fontWeight: 700,
+              fontFamily: 'var(--font-display)', fontSize: '2.5rem', fontWeight: 700,
               color: 'var(--bg)', opacity: 0.85,
             }}
           >
@@ -62,6 +63,7 @@ function PostCard({ post }) {
 export default function BlogPage() {
   const { t } = useLang();
   const b = t.blog;
+  const authenticated = useAuth();
   const [posts, setPosts] = useState(null); // null = loading
 
   useEffect(() => {
@@ -78,12 +80,14 @@ export default function BlogPage() {
   const Intro = (
     <section className="page-header">
       <div className="wrap">
-        <div className="sec-label mono"><span className="ln"></span> {b.label}</div>
+        <div className="sec-label mono">{b.label}</div>
         <h1>{b.h1}<span style={{ color: 'var(--lime)' }}>.</span></h1>
         <p className="sub">{b.sub}</p>
-        <Link to="/blog/new" className="btn btn-ghost" style={{ marginTop: '1.6rem' }}>
-          {b.write || 'Write a post'} <span className="arr">↗</span>
-        </Link>
+        {authenticated && (
+          <Link to="/blog/new" className="btn btn-ghost" style={{ marginTop: '1.6rem' }}>
+            {b.write || 'Write a post'} <span className="arr">↗</span>
+          </Link>
+        )}
       </div>
     </section>
   );
@@ -96,9 +100,11 @@ export default function BlogPage() {
         ) : posts.length === 0 ? (
           <div className="blog-empty">
             <p>No posts published yet.</p>
-            <Link to="/blog/new" className="btn btn-primary" style={{ marginTop: '1rem' }}>
-              {b.write || 'Write a post'} <span className="arr">↗</span>
-            </Link>
+            {authenticated && (
+              <Link to="/blog/new" className="btn btn-primary" style={{ marginTop: '1rem' }}>
+                {b.write || 'Write a post'} <span className="arr">↗</span>
+              </Link>
+            )}
           </div>
         ) : (
           <div className="blog-grid">

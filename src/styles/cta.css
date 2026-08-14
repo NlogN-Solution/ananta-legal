@@ -1,10 +1,10 @@
 /* ============ CTA ============ */
 .cta{position:relative;overflow:hidden;background:var(--bg-2)}
-.cta::after{content:"";position:absolute;width:36vw;height:36vw;max-width:500px;max-height:500px;border-radius:50%;background:color-mix(in srgb,var(--lime) 40%,transparent);right:-8vw;bottom:-14vw;opacity:.4;pointer-events:none}
+.cta::after{content:"";position:absolute;width:36vw;height:36vw;max-width:500px;max-height:500px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--lime) 22%,transparent),transparent 70%);right:-10vw;bottom:-16vw;pointer-events:none}
 .cta .wrap{position:relative;z-index:2}
-.cta h2{font-family:"Bricolage Grotesque";font-weight:800;letter-spacing:-.03em;line-height:.95;font-size:clamp(2.6rem,8vw,6rem);color:var(--ink)}
-.cta p{color:var(--ink-soft);max-width:46ch;margin-top:1.4rem;font-size:1.18rem}
-.cta .row{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.6rem;margin-top:2.4rem}
+.cta h2{font-family:var(--font-display);font-weight:700;letter-spacing:-.03em;line-height:1.02;font-size:clamp(2.1rem,5vw,3.6rem);color:var(--ink)}
+.cta p{color:var(--ink-soft);max-width:50ch;margin-top:1.6rem;font-size:1.08rem;line-height:1.7}
+.cta .row{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.6rem;margin-top:2.8rem}
 .cta .btn-light{background:var(--olive);color:var(--bg)}
 .cta .btn-light:hover{transform:translateY(-2px);box-shadow:0 12px 24px -10px var(--olive)}
 .cta .mailto{color:var(--ink);font-weight:600;border-bottom:2px solid var(--line-2);padding-bottom:2px}

@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion, useReducedMotion } from 'framer-motion';
 import CTA from '../components/CTA';
 import DeckLayout from '../components/DeckLayout';
 import { useLang } from '../i18n/LanguageContext';
+import { fadeUp, staggerContainer } from '../animation/variants';
 
 // Non-translatable metadata (slug + icon) by index.
 const META = [
@@ -16,12 +18,22 @@ const META = [
 
 export default function PracticeAreasPage() {
   const { t } = useLang();
+  const prefersReducedMotion = useReducedMotion();
   const pa = t.practiceAreas;
+
+  const imageMap = {
+    'company-formation': '/company-formation.webp',
+    contracts: '/contract-redlining.jpg',
+    'fundraising-investment': '/fundrasing-investement.jpg',
+    'intellectual-property': '/intellectual-property.png',
+    'compliance-governance': '/compliane-governance.jpg',
+    'exits-disputes': '/exits-disputes.jpg',
+  };
 
   const Intro = (
     <section className="page-header">
       <div className="wrap">
-        <div className="sec-label mono"><span className="ln"></span> {pa.label}</div>
+        <div className="sec-label mono">{pa.label}</div>
         <h1>{pa.h1}<span style={{ color: 'var(--lime)' }}>.</span></h1>
         <p className="sub">{pa.sub}</p>
       </div>
@@ -31,12 +43,29 @@ export default function PracticeAreasPage() {
   const Grid = (
     <section>
       <div className="wrap">
-        <div className="practice-grid">
+        <motion.div
+          className="practice-grid"
+          variants={prefersReducedMotion ? undefined : staggerContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.18 }}
+        >
           {META.map((m, idx) => {
             const p = pa.items[idx];
+            const imageSrc = imageMap[m.slug];
+
             return (
-              <Link to={`/practice-areas/${m.slug}`} key={m.slug} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <div className="practice-card reveal">
+              <Link
+                to={`/practice-areas/${m.slug}`}
+                key={m.slug}
+                style={{ textDecoration: 'none', color: 'inherit' }}
+              >
+                <motion.div
+                  className="practice-card"
+                  variants={prefersReducedMotion ? undefined : fadeUp}
+                  whileHover={prefersReducedMotion ? undefined : { y: -5 }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                >
                   <div className="pc-top">
                     <span className="pc-num">{m.num}</span>
                     <svg className="pc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
@@ -45,6 +74,21 @@ export default function PracticeAreasPage() {
                   </div>
                   <h3>{p.title}</h3>
                   <p>{p.desc}</p>
+                  <div className="practice-image-wrapper">
+                    <motion.div
+                      className="practice-image"
+                      initial={{ opacity: 1, y: 0, scale: 1 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <img
+                        src={imageSrc}
+                        alt={`${p.title} editorial imagery`}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </motion.div>
+                  </div>
                   <ul className="pc-features">
                     {p.features.map((f, i) => (
                       <li key={i}>{f}</li>
@@ -53,11 +97,11 @@ export default function PracticeAreasPage() {
                   <span className="pc-link">
                     {pa.learnMore} <span className="arr">→</span>
                   </span>
-                </div>
+                </motion.div>
               </Link>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
