@@ -59,7 +59,7 @@ export default function BlogPostPage() {
   }
 
   const Title = (
-    <section className="page-header">
+    <section className="page-header blog-post-title">
       <div className="wrap">
         <div className="sec-label mono">
           

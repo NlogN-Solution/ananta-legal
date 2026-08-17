@@ -314,6 +314,12 @@ export default function BlogEditorPage() {
             branding: false,
             promotion: false,
             paste_data_images: true,
+            // The toolbar has no color/font picker, so any inline color/font/
+            // background that shows up can only have come from pasting rich
+            // text (Word, Google Docs, etc). Strip it so pasted content always
+            // follows the site's own typography instead of clashing with it.
+            paste_remove_styles_if_webkit: true,
+            invalid_styles: { '*': 'color background background-color font-family font-size' },
             images_upload_handler: imagesUploadHandler,
             automatic_uploads: true,
           }}

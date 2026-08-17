@@ -32,7 +32,14 @@
 .blog-card:hover .blog-read{gap:.7rem}
 
 /* blog post */
-.blog-post{max-width:740px;margin:0 auto}
+/* `.wrap` sets an explicit width (min(1200px,92vw)) that a plain max-width
+   on an ancestor can't shrink — override it directly for the post's own
+   title + body wrappers so the reading column is actually ~740px wide. */
+.blog-post-title .wrap,
+.blog-post .wrap{
+  width:min(740px,92vw);
+}
+.blog-post{margin:0 auto}
 .blog-post-header{margin-bottom:2.5rem}
 .blog-post-header .blog-cat-tag{
   font-family:"IBM Plex Mono",monospace;font-size:.68rem;text-transform:uppercase;
@@ -41,20 +48,27 @@
 }
 .blog-post-header h1{font-family:var(--font-display);font-weight:700;font-size:clamp(2rem,4.5vw,3rem);letter-spacing:-.03em;line-height:1.08;margin-bottom:1rem}
 .blog-post-header .blog-post-meta{font-size:.9rem;color:var(--ink-soft);display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
-.blog-post-body h2{font-family:var(--font-display);font-weight:700;font-size:1.7rem;letter-spacing:-.02em;margin:2.5rem 0 1rem;line-height:1.1}
-.blog-post-body h3{font-family:var(--font-display);font-weight:700;font-size:1.3rem;margin:2rem 0 .8rem}
-.blog-post-body p{color:var(--ink-soft);font-size:1.08rem;line-height:1.75;margin-bottom:1.2rem}
-.blog-post-body ul,.blog-post-body ol{margin:1rem 0 1.5rem 1.5rem;color:var(--ink-soft)}
+/* Force the site's own colors/fonts regardless of inline styles pasted into
+   the editor from Word/Google Docs — the toolbar has no color/font picker,
+   so any inline color here came from paste, and can otherwise leave text
+   unreadable (e.g. literal black text in dark mode). */
+.blog-post-body{color:var(--ink-soft)}
+.blog-post-body *{color:inherit !important;background-color:transparent !important;font-family:inherit !important}
+.blog-post-body h2{font-family:var(--font-display) !important;font-weight:700;font-size:1.7rem;letter-spacing:-.02em;margin:2.5rem 0 1rem;line-height:1.1;color:var(--ink) !important}
+.blog-post-body h3{font-family:var(--font-display) !important;font-weight:700;font-size:1.3rem;margin:2rem 0 .8rem;color:var(--ink) !important}
+.blog-post-body p{font-size:1.08rem;line-height:1.75;margin-bottom:1.2rem}
+.blog-post-body ul,.blog-post-body ol{margin:1rem 0 1.5rem 1.5rem}
 .blog-post-body li{font-size:1.05rem;line-height:1.7;margin-bottom:.5rem}
+.blog-post-body strong,.blog-post-body b{color:var(--ink) !important}
 .blog-post-body blockquote{
   border-left:3px solid var(--olive);padding:1rem 1.5rem;margin:1.5rem 0;
-  background:var(--surface);border-radius:0 12px 12px 0;
+  background:var(--surface) !important;border-radius:0 12px 12px 0;
 }
-.blog-post-body blockquote p{color:var(--ink);font-style:italic}
+.blog-post-body blockquote p{color:var(--ink) !important;font-style:italic}
 /* images & links inside editor-authored (database) posts */
 .blog-post-body img{max-width:100%;height:auto;border-radius:12px;margin:1.5rem 0;border:1px solid var(--line)}
-.blog-post-body a{color:var(--olive);text-decoration:underline;text-underline-offset:2px}
+.blog-post-body a{color:var(--olive) !important;text-decoration:underline;text-underline-offset:2px}
 .blog-post-body table{border-collapse:collapse;width:100%;margin:1.5rem 0}
 .blog-post-body th,.blog-post-body td{border:1px solid var(--line);padding:.6rem .8rem;text-align:left}
-.blog-post-cover{width:100%;max-height:380px;object-fit:cover;border-radius:16px;border:1px solid var(--line);margin-bottom:2rem}
+.blog-post-cover{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:16px;border:1px solid var(--line);margin-bottom:2rem;display:block}
 .blog-empty{text-align:center;color:var(--ink-soft);padding:3rem 0;font-size:1.1rem}
