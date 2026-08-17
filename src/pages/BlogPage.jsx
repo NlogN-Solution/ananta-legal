@@ -94,7 +94,7 @@ export default function BlogPage() {
   );
 
   const Grid = (
-    <section>
+    <section className="blog-grid-section">
       <div className="wrap">
         {posts === null ? (
           <p className="blog-empty">Loading posts…</p>

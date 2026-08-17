@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useLang } from '../i18n/LanguageContext';
 import { fadeUp, staggerContainer, scaleIn } from '../animation/variants';
 import { useHeroMonogram } from '../animation/gsapHooks';
+import { whatsappUrl } from '../lib/whatsapp';
 
 /* Shield-check, scale and clock — matched to the three real differentiators
    (track record / flat fees / response time), not generic trust icons. */
@@ -59,9 +60,9 @@ export default function Hero() {
           <motion.p className="hero-sub" variants={v(fadeUp)}>{h.sub}</motion.p>
 
           <motion.div className="hero-cta" variants={v(fadeUp)}>
-            <Link to="/contact" className="btn btn-primary">
+            <a href={whatsappUrl()} target="_blank" rel="noreferrer" className="btn btn-primary">
               {h.cta1} <span className="arr">↗</span>
-            </Link>
+            </a>
             <Link to="/practice-areas" className="btn btn-ghost btn-ghost-gold">
               {h.cta2} <span className="arr">↗</span>
             </Link>

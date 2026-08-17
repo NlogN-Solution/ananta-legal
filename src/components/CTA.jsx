@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useLang } from '../i18n/LanguageContext';
 import { fadeUp, staggerContainer } from '../animation/variants';
 import { useLineReveal } from '../animation/gsapHooks';
+import { whatsappUrl } from '../lib/whatsapp';
 
 export default function CTA() {
   const { t } = useLang();
@@ -26,9 +26,9 @@ export default function CTA() {
         </h2>
         <motion.p variants={prefersReducedMotion ? undefined : fadeUp}>{c.p}</motion.p>
         <motion.div className="row" variants={prefersReducedMotion ? undefined : fadeUp}>
-          <Link to="/contact" className="btn btn-light">
+          <a href={whatsappUrl()} target="_blank" rel="noreferrer" className="btn btn-light">
             {c.btn} <span className="arr">↗</span>
-          </Link>
+          </a>
           <a href={`mailto:${c.mailto}`} className="mailto">
             {c.mailto}
           </a>

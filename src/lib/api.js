@@ -7,7 +7,7 @@
  * backend runs elsewhere (e.g. Render), set VITE_API_URL to that backend's
  * origin (no trailing slash) before running `npm run build`.
  */
-export const API_BASE = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+export const API_BASE = (import.meta.env.VITE_API_URL || 'https://ananta-legal-api.onrender.com').replace(/\/$/, '');
 
 export function apiUrl(path) {
   return `${API_BASE}${path}`;

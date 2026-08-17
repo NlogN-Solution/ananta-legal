@@ -122,6 +122,11 @@ function uploadToCloudinary(buffer) {
 const MAIL_TO = process.env.MAIL_TO || 'anantalegal9@gmail.com';
 const MAIL_FROM = process.env.MAIL_FROM || process.env.SMTP_USER || MAIL_TO;
 
+// Brevo's HTTPS API (port 443) — preferred when BREVO_API_KEY is set, since
+// some hosts (Render included) block/throttle raw outbound SMTP ports, which
+// makes plain SMTP relays hang and time out regardless of credentials.
+const BREVO_API_KEY = process.env.BREVO_API_KEY || '';
+
 let mailer = null;
 if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
   mailer = nodemailer.createTransport({
@@ -133,10 +138,38 @@ if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
     greetingTimeout: 10_000,
     socketTimeout: 15_000,
   });
-} else {
-  console.warn('[mail] SMTP_HOST/SMTP_USER/SMTP_PASS not set — /api/contact returns 503 until configured.');
 }
-console.log(`[mail] enquiries -> ${mailer ? `SMTP (${process.env.SMTP_HOST}) -> ${MAIL_TO}` : 'disabled'}`);
+
+const mailEnabled = Boolean(BREVO_API_KEY || mailer);
+if (!mailEnabled) {
+  console.warn('[mail] Set BREVO_API_KEY (preferred) or SMTP_HOST/SMTP_USER/SMTP_PASS — /api/contact returns 503 until configured.');
+}
+console.log(
+  `[mail] enquiries -> ${BREVO_API_KEY ? 'Brevo API (HTTPS)' : mailer ? `SMTP (${process.env.SMTP_HOST})` : 'disabled'} -> ${MAIL_TO}`
+);
+
+async function sendMail({ to, replyTo, subject, text, html }) {
+  if (BREVO_API_KEY) {
+    const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': BREVO_API_KEY, 'Content-Type': 'application/json', accept: 'application/json' },
+      body: JSON.stringify({
+        sender: { name: 'Ananta Legal Website', email: MAIL_FROM },
+        to: [{ email: to }],
+        replyTo: { email: replyTo },
+        subject,
+        textContent: text,
+        htmlContent: html,
+      }),
+    });
+    if (!res.ok) {
+      const body = await res.text().catch(() => '');
+      throw new Error(`Brevo API ${res.status}: ${body}`);
+    }
+    return;
+  }
+  await mailer.sendMail({ from: `"Ananta Legal Website" <${MAIL_FROM}>`, to, replyTo, subject, text, html });
+}
 
 // Tiny in-memory rate limit: max 5 submissions per 10 minutes per IP.
 // Good enough for a single-instance deploy; resets on restart.
@@ -251,7 +284,7 @@ function requireAuth(req, res, next) {
 }
 
 app.get('/api/health', (_req, res) =>
-  res.json({ ok: true, db: Boolean(pool), cloudinary: useCloudinary, loginEnabled, mail: Boolean(mailer) })
+  res.json({ ok: true, db: Boolean(pool), cloudinary: useCloudinary, loginEnabled, mail: mailEnabled })
 );
 
 app.get('/api/me', (req, res) =>
@@ -275,8 +308,8 @@ app.post('/api/logout', (req, res) => {
 
 /* --- contact / enquiry form ------------------------------------------------ */
 app.post('/api/contact', async (req, res) => {
-  if (!mailer) {
-    return res.status(503).json({ error: 'Mail is not configured. Set SMTP_HOST/SMTP_USER/SMTP_PASS and restart.' });
+  if (!mailEnabled) {
+    return res.status(503).json({ error: 'Mail is not configured. Set BREVO_API_KEY (or SMTP_HOST/SMTP_USER/SMTP_PASS) and restart.' });
   }
 
   // Honeypot: real visitors never fill this hidden field; bots usually do.
@@ -296,8 +329,7 @@ app.post('/api/contact', async (req, res) => {
   }
 
   try {
-    await mailer.sendMail({
-      from: `"Ananta Legal Website" <${MAIL_FROM}>`,
+    await sendMail({
       to: MAIL_TO,
       replyTo: email.trim(),
       subject: `New enquiry — ${name.trim()}${service ? ` (${service})` : ''}`,

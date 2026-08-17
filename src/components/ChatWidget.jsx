@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useLang } from '../i18n/LanguageContext';
+import { whatsappUrl } from '../lib/whatsapp';
 
 /**
  * ChatWidget — a lightweight support chat with PRE-MADE responses (no AI).
@@ -157,9 +157,9 @@ export default function ChatWidget() {
             </div>
 
             <div className="chat-foot">
-              <Link to="/contact" className="chat-book" onClick={() => setOpen(false)}>
+              <a href={whatsappUrl()} target="_blank" rel="noreferrer" className="chat-book" onClick={() => setOpen(false)}>
                 {c.bookCta} <span className="arr">↗</span>
-              </Link>
+              </a>
               <form
                 className="chat-input"
                 onSubmit={(e) => {

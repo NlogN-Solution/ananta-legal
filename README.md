@@ -47,10 +47,12 @@ Four features were added:
   `/blog/new` and `/blog/edit/:slug`, with image upload. Posts are stored in PostgreSQL
   and shown at `/blog` and `/blog/:slug`. The editor is **admin-only** (login + session).
 - **Contact form → email** — `POST /api/contact` sends the Contact page's Consultation
-  Request form as an email (via SMTP/nodemailer) to `MAIL_TO` (defaults to
-  `anantalegal9@gmail.com`), with the visitor's address set as `Reply-To` so you can
-  just hit reply. Includes a honeypot field and a basic per-IP rate limit. Degrades to
-  a 503 with a clear message until `SMTP_HOST`/`SMTP_USER`/`SMTP_PASS` are set.
+  Request form as an email to `MAIL_TO` (defaults to `anantalegal9@gmail.com`), with the
+  visitor's address set as `Reply-To` so you can just hit reply. Includes a honeypot
+  field and a basic per-IP rate limit. Sends via **Brevo's HTTPS API** when
+  `BREVO_API_KEY` is set (recommended — see below), falling back to plain SMTP
+  (`SMTP_HOST`/`SMTP_USER`/`SMTP_PASS`) otherwise. Degrades to a 503 with a clear
+  message until one of those is configured.
 
 ### Run it locally
 
@@ -72,9 +74,10 @@ npm run dev:all           # runs Vite (web) + the API server together
 | `CLOUDINARY_URL` | Cloudinary credentials for blog images. Falls back to local disk if unset. |
 | `SERVE_CLIENT` | `true` → the API server also serves the built `dist/` (single service). |
 | `CLIENT_ORIGIN` / `COOKIE_CROSS_SITE` | Only for a *separate* frontend deployment. `CLIENT_ORIGIN` accepts a comma-separated list, e.g. `https://ananta-legal.com,http://localhost:5173` to allow local dev too. |
-| `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` | Mail server for the contact form. Login is disabled (503) until all three are set. |
+| `BREVO_API_KEY` | **Recommended** way to send contact-form email — Brevo's HTTPS API (Brevo → SMTP & API → API Keys), avoids SMTP ports that hosts like Render can block. |
+| `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` | Fallback mail transport, only used when `BREVO_API_KEY` is unset. |
 | `MAIL_TO` | Inbox that receives enquiries. Defaults to `anantalegal9@gmail.com`. |
-| `MAIL_FROM` | "From" address on outgoing mail. Defaults to `SMTP_USER`. |
+| `MAIL_FROM` | "From" address on outgoing mail. Must be on a domain authenticated with your mail provider (SPF/DKIM) — see "Blog image storage" section's sibling note in `.env.example`. |
 | `VITE_API_URL` | **Frontend build-time var.** Set only when the frontend is built and hosted separately from the API (see below) — the API's public URL, no trailing slash. |
 
 The backend degrades gracefully: with no `DATABASE_URL` the public site still works and
@@ -111,7 +114,7 @@ usually gated behind the "unlimited" tier. Nothing in this repo needs cPanel's s
    - **Build command:** `npm install`
    - **Start command:** `npm run server`
    - **Environment:** `DATABASE_URL`, `SESSION_SECRET`, `ADMIN_USER`, `ADMIN_PASSWORD`,
-     `CLOUDINARY_URL`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_TO`,
+     `CLOUDINARY_URL`, `BREVO_API_KEY`, `MAIL_FROM`, `MAIL_TO`,
      `NODE_ENV=production`, `SERVE_CLIENT=false` (or unset),
      `CLIENT_ORIGIN=https://your-cpanel-domain.com`, `COOKIE_CROSS_SITE=true`.
    - Note the resulting URL, e.g. `https://ananta-legal-api.onrender.com`.

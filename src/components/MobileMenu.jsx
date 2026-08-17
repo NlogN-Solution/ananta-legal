@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLang } from '../i18n/LanguageContext';
+import { whatsappUrl } from '../lib/whatsapp';
 
 export default function MobileMenu({ open, onClose }) {
   const { t } = useLang();
@@ -12,7 +13,7 @@ export default function MobileMenu({ open, onClose }) {
       <Link to="/blog" onClick={onClose}>{t.nav.blog}</Link>
       <Link to="/contact" onClick={onClose}>{t.nav.contact}</Link>
       <Link to="/guide" onClick={onClose}>{t.nav.guide}</Link>
-      <Link to="/contact" className="btn btn-primary" onClick={onClose}>{t.nav.book} ↗</Link>
+      <a href={whatsappUrl()} target="_blank" rel="noreferrer" className="btn btn-primary" onClick={onClose}>{t.nav.book} ↗</a>
     </div>
   );
 }

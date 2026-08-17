@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useLang } from '../i18n/LanguageContext';
+import { whatsappUrl } from '../lib/whatsapp';
 
 export default function Navbar({ theme, toggleTheme, menuOpen, setMenuOpen }) {
   const [scrolled, setScrolled] = useState(false);
@@ -59,9 +60,9 @@ export default function Navbar({ theme, toggleTheme, menuOpen, setMenuOpen }) {
               <path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" />
             </svg>
           </button>
-          <Link to="/contact" className="btn btn-primary">
+          <a href={whatsappUrl()} target="_blank" rel="noreferrer" className="btn btn-primary">
             {t.nav.book} <span className="arr">↗</span>
-          </Link>
+          </a>
           <button
             className="hamburger"
             id="hamburger"
