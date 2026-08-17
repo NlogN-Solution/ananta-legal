@@ -71,7 +71,7 @@ npm run dev:all           # runs Vite (web) + the API server together
 | `ADMIN_USER` / `ADMIN_PASSWORD` | Editor login. Login is disabled until `ADMIN_PASSWORD` is set. |
 | `CLOUDINARY_URL` | Cloudinary credentials for blog images. Falls back to local disk if unset. |
 | `SERVE_CLIENT` | `true` → the API server also serves the built `dist/` (single service). |
-| `CLIENT_ORIGIN` / `COOKIE_CROSS_SITE` | Only for a *separate* frontend deployment. |
+| `CLIENT_ORIGIN` / `COOKIE_CROSS_SITE` | Only for a *separate* frontend deployment. `CLIENT_ORIGIN` accepts a comma-separated list, e.g. `https://ananta-legal.com,http://localhost:5173` to allow local dev too. |
 | `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` | Mail server for the contact form. Login is disabled (503) until all three are set. |
 | `MAIL_TO` | Inbox that receives enquiries. Defaults to `anantalegal9@gmail.com`. |
 | `MAIL_FROM` | "From" address on outgoing mail. Defaults to `SMTP_USER`. |

@@ -186,9 +186,25 @@ function estimateReadTime(html) {
 /* ----------------------------------------------------------------- app ---- */
 const app = express();
 app.set('trust proxy', 1); // Render terminates TLS at a proxy
+
+// CLIENT_ORIGIN may be a single origin or a comma-separated list (e.g. the
+// production site + http://localhost:5173 for local dev against this API).
+// Leave CLIENT_ORIGIN unset to reflect any origin (fine when there's no
+// cross-site session cookie in play, i.e. COOKIE_CROSS_SITE isn't needed).
+const allowedOrigins = (process.env.CLIENT_ORIGIN || '')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+
 app.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN || true, // reflect request origin by default
+    origin(origin, callback) {
+      if (!origin) return callback(null, true); // curl, server-to-server, etc.
+      if (allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      callback(new Error(`Origin ${origin} not allowed by CORS`));
+    },
     credentials: true,
   })
 );
