@@ -4,6 +4,7 @@ import CTA from '../components/CTA';
 import DeckLayout from '../components/DeckLayout';
 import useAuth from '../hooks/useAuth';
 import { useLang } from '../i18n/LanguageContext';
+import { apiUrl } from '../lib/api';
 
 function fmtDate(iso) {
   try {
@@ -25,7 +26,7 @@ export default function BlogPostPage() {
 
   useEffect(() => {
     let active = true;
-    fetch(`/api/posts/${slug}`)
+    fetch(apiUrl(`/api/posts/${slug}`))
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => active && setPost(d || null))
       .catch(() => active && setPost(null));

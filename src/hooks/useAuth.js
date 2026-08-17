@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { apiFetch } from '../lib/api';
 
 /**
  * Returns whether the current session is authenticated (admin login).
@@ -9,7 +10,7 @@ export default function useAuth() {
 
   useEffect(() => {
     let active = true;
-    fetch('/api/me', { credentials: 'include' })
+    apiFetch('/api/me')
       .then((r) => r.json())
       .then((d) => active && setAuthenticated(Boolean(d.authenticated)))
       .catch(() => active && setAuthenticated(false));

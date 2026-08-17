@@ -4,6 +4,7 @@ import CTA from '../components/CTA';
 import DeckLayout from '../components/DeckLayout';
 import useAuth from '../hooks/useAuth';
 import { useLang } from '../i18n/LanguageContext';
+import { apiUrl } from '../lib/api';
 
 function fmtDate(iso) {
   try {
@@ -68,7 +69,7 @@ export default function BlogPage() {
 
   useEffect(() => {
     let active = true;
-    fetch('/api/posts')
+    fetch(apiUrl('/api/posts'))
       .then((r) => (r.ok ? r.json() : []))
       .then((data) => active && setPosts(Array.isArray(data) ? data : []))
       .catch(() => active && setPosts([]));

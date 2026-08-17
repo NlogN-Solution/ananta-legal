@@ -16,10 +16,14 @@
  *   CLIENT_ORIGIN         allowed browser origin if frontend is a separate site
  *   COOKIE_CROSS_SITE     "true" if frontend and backend are on different domains
  *   API_PORT              port (Render sets PORT; we read both)
+ *   SMTP_HOST/PORT/USER/PASS  mail server used to send enquiry-form emails
+ *   MAIL_TO                where enquiry emails are delivered (default: anantalegal9@gmail.com)
+ *   MAIL_FROM              "From" address for outgoing mail (defaults to SMTP_USER)
  *
  * Degrades gracefully: with no DATABASE_URL the post endpoints return 503 and
  * the public site falls back to its built-in posts; with no Cloudinary the
- * uploads go to local disk (fine for development).
+ * uploads go to local disk (fine for development); with no SMTP_* set the
+ * contact endpoint returns 503 instead of silently dropping enquiries.
  */
 import 'dotenv/config'; // load .env locally (no-op on Render, which sets real env vars)
 import express from 'express';
@@ -28,6 +32,7 @@ import multer from 'multer';
 import session from 'express-session';
 import connectPgSimple from 'connect-pg-simple';
 import { v2 as cloudinary } from 'cloudinary';
+import nodemailer from 'nodemailer';
 import path from 'node:path';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
@@ -113,6 +118,42 @@ function uploadToCloudinary(buffer) {
   });
 }
 
+/* ----------------------------------------------------------------- mail ---- */
+const MAIL_TO = process.env.MAIL_TO || 'anantalegal9@gmail.com';
+const MAIL_FROM = process.env.MAIL_FROM || process.env.SMTP_USER || MAIL_TO;
+
+let mailer = null;
+if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
+  mailer = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT) || 587,
+    secure: Number(process.env.SMTP_PORT) === 465,
+    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+  });
+} else {
+  console.warn('[mail] SMTP_HOST/SMTP_USER/SMTP_PASS not set — /api/contact returns 503 until configured.');
+}
+console.log(`[mail] enquiries -> ${mailer ? `SMTP (${process.env.SMTP_HOST}) -> ${MAIL_TO}` : 'disabled'}`);
+
+// Tiny in-memory rate limit: max 5 submissions per 10 minutes per IP.
+// Good enough for a single-instance deploy; resets on restart.
+const contactHits = new Map();
+function isRateLimited(ip) {
+  const now = Date.now();
+  const windowMs = 10 * 60 * 1000;
+  const hits = (contactHits.get(ip) || []).filter((t) => now - t < windowMs);
+  hits.push(now);
+  contactHits.set(ip, hits);
+  return hits.length > 5;
+}
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+  ));
+}
+
 /* -------------------------------------------------------------- helpers ---- */
 function slugify(text) {
   return String(text)
@@ -191,7 +232,7 @@ function requireAuth(req, res, next) {
 }
 
 app.get('/api/health', (_req, res) =>
-  res.json({ ok: true, db: Boolean(pool), cloudinary: useCloudinary, loginEnabled })
+  res.json({ ok: true, db: Boolean(pool), cloudinary: useCloudinary, loginEnabled, mail: Boolean(mailer) })
 );
 
 app.get('/api/me', (req, res) =>
@@ -211,6 +252,58 @@ app.post('/api/login', (req, res) => {
 
 app.post('/api/logout', (req, res) => {
   req.session.destroy(() => res.json({ ok: true }));
+});
+
+/* --- contact / enquiry form ------------------------------------------------ */
+app.post('/api/contact', async (req, res) => {
+  if (!mailer) {
+    return res.status(503).json({ error: 'Mail is not configured. Set SMTP_HOST/SMTP_USER/SMTP_PASS and restart.' });
+  }
+
+  // Honeypot: real visitors never fill this hidden field; bots usually do.
+  if (req.body?.website) return res.json({ ok: true });
+
+  const ip = req.ip || req.socket?.remoteAddress || 'unknown';
+  if (isRateLimited(ip)) {
+    return res.status(429).json({ error: 'Too many requests. Please try again later.' });
+  }
+
+  const { name, email, company = '', service = '', message } = req.body || {};
+  if (!name?.trim() || !email?.trim() || !message?.trim()) {
+    return res.status(400).json({ error: 'Name, email, and message are required.' });
+  }
+  if (!EMAIL_RE.test(email.trim())) {
+    return res.status(400).json({ error: 'Please provide a valid email address.' });
+  }
+
+  try {
+    await mailer.sendMail({
+      from: `"Ananta Legal Website" <${MAIL_FROM}>`,
+      to: MAIL_TO,
+      replyTo: email.trim(),
+      subject: `New enquiry — ${name.trim()}${service ? ` (${service})` : ''}`,
+      text: [
+        `Name: ${name.trim()}`,
+        `Email: ${email.trim()}`,
+        company ? `Company: ${company.trim()}` : null,
+        service ? `Service: ${service.trim()}` : null,
+        '',
+        message.trim(),
+      ].filter(Boolean).join('\n'),
+      html: `
+        <p><strong>Name:</strong> ${escapeHtml(name.trim())}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email.trim())}</p>
+        ${company ? `<p><strong>Company:</strong> ${escapeHtml(company.trim())}</p>` : ''}
+        ${service ? `<p><strong>Service:</strong> ${escapeHtml(service.trim())}</p>` : ''}
+        <p><strong>Message:</strong></p>
+        <p>${escapeHtml(message.trim()).replace(/\n/g, '<br>')}</p>
+      `,
+    });
+    res.json({ ok: true });
+  } catch (e) {
+    console.error('[contact]', e.message);
+    res.status(502).json({ error: 'Failed to send your message. Please try again or email us directly.' });
+  }
 });
 
 /* --- image upload (admin only) ------------------------------------------- */

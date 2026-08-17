@@ -43,7 +43,7 @@ export default function AboutPage() {
           </motion.div>
           <motion.div className="team-image" variants={prefersReducedMotion ? undefined : fadeUp}>
             <img
-              src="/meet-our-team.webp"
+              src="/sans-shiva.jpeg"
               alt="Ananta Legal founders and team members working together for founders"
             />
           </motion.div>

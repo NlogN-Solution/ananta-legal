@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DeckLayout from '../components/DeckLayout';
 import { useLang } from '../i18n/LanguageContext';
+import { apiUrl } from '../lib/api';
 
 const SERVICE_KEYS = [
   'company-formation',
@@ -15,12 +16,15 @@ export default function ContactPage() {
   const { t } = useLang();
   const c = t.contact;
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     company: '',
     service: 'company-formation',
     message: '',
+    website: '', // honeypot — left empty by real visitors
   });
 
   const handleChange = (e) => {
@@ -28,16 +32,32 @@ export default function ContactPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setFormSubmitted(true);
-    setFormData({
-      name: '',
-      email: '',
-      company: '',
-      service: 'company-formation',
-      message: '',
-    });
+    setError('');
+    setSubmitting(true);
+    try {
+      const res = await fetch(apiUrl('/api/contact'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || c.errorBody);
+      setFormSubmitted(true);
+      setFormData({
+        name: '',
+        email: '',
+        company: '',
+        service: 'company-formation',
+        message: '',
+        website: '',
+      });
+    } catch (err) {
+      setError(err.message || c.errorBody);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const Intro = (
@@ -130,9 +150,27 @@ export default function ContactPage() {
               <textarea id="message" name="message" value={formData.message} onChange={handleChange} required placeholder={c.fMessagePh}></textarea>
             </div>
 
-            <button type="submit" className="btn btn-primary form-submit">
-              {c.submit} <span className="arr">↗</span>
+            {/* Honeypot: hidden from real visitors, off-screen (not display:none, so basic bots that skip hidden fields still fill it). */}
+            <input
+              type="text"
+              name="website"
+              value={formData.website}
+              onChange={handleChange}
+              tabIndex={-1}
+              autoComplete="off"
+              style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
+              aria-hidden="true"
+            />
+
+            <button type="submit" className="btn btn-primary form-submit" disabled={submitting}>
+              {submitting ? c.submitting : c.submit} <span className="arr">↗</span>
             </button>
+
+            {error && (
+              <div className="form-error">
+                <strong>{c.errorTitle}</strong> {error}
+              </div>
+            )}
 
             {formSubmitted && (
               <div className="form-success">

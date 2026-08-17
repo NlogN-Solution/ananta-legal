@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
+import { apiUrl } from '../lib/api';
 
 /* --- TinyMCE self-hosted (no cloud API key) --- */
 import 'tinymce/tinymce';
@@ -36,7 +37,7 @@ const EDITOR_STYLE =
   `h2{font-family:Cormorant Garamond,Georgia,serif;font-weight:700}img{max-width:100%;height:auto;border-radius:10px}`;
 
 // Send the session cookie with API calls (works same-origin and cross-origin).
-const api = (url, opts = {}) => fetch(url, { credentials: 'include', ...opts });
+const api = (url, opts = {}) => fetch(apiUrl(url), { credentials: 'include', ...opts });
 
 // Upload images straight to the backend; TinyMCE expects the hosted URL back.
 const imagesUploadHandler = (blobInfo) =>

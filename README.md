@@ -34,9 +34,9 @@ A complete React application created from the original single-page HTML, expande
    npm run build
    ```
 
-## Backend (chat, blog publishing, map)
+## Backend (chat, blog publishing, map, contact email)
 
-Three features were added:
+Four features were added:
 
 - **Support chat widget** — bottom-right on every page. Pure frontend, **no AI**: it
   keyword-matches the visitor's question against a built-in FAQ set (bilingual EN/ने)
@@ -46,6 +46,11 @@ Three features were added:
 - **Blog publishing system** — a rich-text editor (TinyMCE, self-hosted, no API key) at
   `/blog/new` and `/blog/edit/:slug`, with image upload. Posts are stored in PostgreSQL
   and shown at `/blog` and `/blog/:slug`. The editor is **admin-only** (login + session).
+- **Contact form → email** — `POST /api/contact` sends the Contact page's Consultation
+  Request form as an email (via SMTP/nodemailer) to `MAIL_TO` (defaults to
+  `anantalegal9@gmail.com`), with the visitor's address set as `Reply-To` so you can
+  just hit reply. Includes a honeypot field and a basic per-IP rate limit. Degrades to
+  a 503 with a clear message until `SMTP_HOST`/`SMTP_USER`/`SMTP_PASS` are set.
 
 ### Run it locally
 
@@ -67,6 +72,10 @@ npm run dev:all           # runs Vite (web) + the API server together
 | `CLOUDINARY_URL` | Cloudinary credentials for blog images. Falls back to local disk if unset. |
 | `SERVE_CLIENT` | `true` → the API server also serves the built `dist/` (single service). |
 | `CLIENT_ORIGIN` / `COOKIE_CROSS_SITE` | Only for a *separate* frontend deployment. |
+| `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` | Mail server for the contact form. Login is disabled (503) until all three are set. |
+| `MAIL_TO` | Inbox that receives enquiries. Defaults to `anantalegal9@gmail.com`. |
+| `MAIL_FROM` | "From" address on outgoing mail. Defaults to `SMTP_USER`. |
+| `VITE_API_URL` | **Frontend build-time var.** Set only when the frontend is built and hosted separately from the API (see below) — the API's public URL, no trailing slash. |
 
 The backend degrades gracefully: with no `DATABASE_URL` the public site still works and
 falls back to the three built-in featured posts.
@@ -90,6 +99,33 @@ serves the built React app — same origin means the session cookie "just works"
 > `CLIENT_ORIGIN` to the static site's URL and `COOKIE_CROSS_SITE=true` so the
 > cross-domain session cookie is allowed. The single-service option above avoids all
 > of that.
+
+## Frontend on cPanel + backend on Render (split deployment)
+
+This is the setup if you're already uploading `dist/` to cPanel and want the API on
+its own host. **Node.js apps are fully supported on Render on any plan** — it's a
+dedicated Node/Python/etc. app host, unlike cPanel where SSH/terminal/Node access is
+usually gated behind the "unlimited" tier. Nothing in this repo needs cPanel's shell.
+
+1. **Deploy the backend to Render** as a Web Service pointing at this repo:
+   - **Build command:** `npm install`
+   - **Start command:** `npm run server`
+   - **Environment:** `DATABASE_URL`, `SESSION_SECRET`, `ADMIN_USER`, `ADMIN_PASSWORD`,
+     `CLOUDINARY_URL`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_TO`,
+     `NODE_ENV=production`, `SERVE_CLIENT=false` (or unset),
+     `CLIENT_ORIGIN=https://your-cpanel-domain.com`, `COOKIE_CROSS_SITE=true`.
+   - Note the resulting URL, e.g. `https://ananta-legal-api.onrender.com`.
+2. **Build the frontend for cPanel** with that URL baked in:
+   ```bash
+   VITE_API_URL=https://ananta-legal-api.onrender.com npm run build
+   ```
+   (or add `VITE_API_URL=...` to a local `.env` before building — Vite reads it at
+   build time only). Upload the resulting `dist/` contents to cPanel as before.
+3. Every `fetch` in the app (contact form, blog list/post, admin login/editor) now
+   targets the Render API instead of the cPanel domain — see `src/lib/api.js`.
+
+Blog admin sessions use a cross-site cookie in this setup (`COOKIE_CROSS_SITE=true`),
+which requires HTTPS on both sides — Render and cPanel both give you that by default.
 
 ## Blog image storage — use Cloudinary
 

@@ -212,7 +212,7 @@ export const translations = {
       teamIntro: 'Two advocates working together to make legal support clear, simple, and startup-ready.',
       team: [
         { image: '/sanskriti-image.jpeg', name: 'Advocate Sanskriti Koirala', title: 'Founding Partner', degree: 'BA LLB', focus: 'Corporate & Commercial Law' },
-        { image: '/shivani-image.jpeg', name: 'Advocate Shivani Belbase', title: 'Founding Partner', degree: 'BA LLB', focus: 'Corporate & Commercial Law' },
+        { image: '/shivani-image.jpeg', name: 'Shivani Belbase', title: 'Founding Partner', degree: 'BA LLB', focus: 'Corporate & Commercial Law' },
       ],
       bioHead: 'Lawyers who speak founder, not legalese.',
       bio: [
@@ -353,8 +353,11 @@ export const translations = {
       fMessage: 'Briefly describe your legal concern / queries',
       fMessagePh: 'Briefly describe your legal concern / queries',
       submit: 'Submit Request',
+      submitting: 'Sending…',
       successTitle: 'Success!',
       successBody: 'Your request has been sent. We will get back to you within 24 hours.',
+      errorTitle: 'Something went wrong.',
+      errorBody: 'Could not send your message. Please try again or email us directly.',
       mapTitle: 'Our Location',
     },
 
@@ -664,7 +667,7 @@ export const translations = {
       teamIntro: 'दुई अधिवक्ताहरूले मिलेर कानुनी सहयोगलाई स्पष्ट, सरल र स्टार्टअप-मित्र बनाउन सहयोग गरिरहेका छन्।',
       team: [
         { image: '/sanskriti-image.jpeg', name: 'अधिवक्ता संस्कृति कोइराला', title: 'संस्थापक साझेदार', degree: 'BA LLB', focus: 'कर्पोरेट तथा वाणिज्य कानून' },
-        { image: '/shivani-image.jpeg', name: 'अधिवक्ता शिवानी बेल्बासे', title: 'संस्थापक साझेदार', degree: 'BA LLB', focus: 'कर्पोरेट तथा वाणिज्य कानून' },
+        { image: '/shivani-image.jpeg', name: 'शिवानी बेल्बासे', title: 'संस्थापक साझेदार', degree: 'BA LLB', focus: 'कर्पोरेट तथा वाणिज्य कानून' },
       ],
       bioHead: 'कानुनी जटिलता होइन, संस्थापकको भाषा बोल्ने वकिल।',
       bio: [
@@ -805,8 +808,11 @@ export const translations = {
       fMessage: 'तपाईं के बनाउँदै हुनुहुन्छ छोटकरीमा लेख्नुहोस्',
       fMessagePh: 'आफ्नो उद्यम र कुन कानुनी सहयोग चाहिन्छ भन्ने बारे केही लेख्नुहोस्...',
       submit: 'अनुरोध पठाउनुहोस्',
+      submitting: 'पठाउँदै…',
       successTitle: 'सफल!',
       successBody: 'तपाईंको अनुरोध पठाइयो। हामी २४ घण्टाभित्र जवाफ दिने छौँ।',
+      errorTitle: 'केही समस्या भयो।',
+      errorBody: 'तपाईंको सन्देश पठाउन सकिएन। कृपया फेरि प्रयास गर्नुहोस् वा सिधै हामीलाई इमेल गर्नुहोस्।',
       mapTitle: 'हाम्रो स्थान',
     },
 
